@@ -125,6 +125,7 @@ GET resources in App.js:
 ```javascript 
 import { API } from 'aws-amplify'
 
+state = { people: [] }
 async componentDidMount() {
 	const data = await API.get('peopleapi', '/people')
 	this.setState({ people: data.people })
