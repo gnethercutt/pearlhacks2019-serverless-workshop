@@ -4,12 +4,12 @@ Hackathon workshop for Pearlhacks 2019 at UNC Chapel Hill
 
 Learn about the world of serverless computing in this fast paced, bootstrapping workshop. In this session, hackers will learn about Lambda, load balancing, and serverless databases in Amazon Web Services. After this workshop, hackers will have an understanding of how to create backend API's and data tiers without needing to manage servers, operating systems, firewalls, or package managers. Combined with any number of front-end client technologies (HTML5/Javascript, Android, iOS, etc), participants should be able to create fully featured web applications that are highly scalable and super-cheap to run!
 
-- [Cognito]
-- [API Gateway]
-- [Lambda]
-- [DynamoDB]
-- [S3]
-- [Amplify]
+- [Cognito] - provides authentication and identity management (read: user logins!)
+- [API Gateway] - provides a REST interface for the code you push into the cloud
+- [Lambda] - a serverless runtime where your cloud functions run
+- [DynamoDB] - a serverless NoSQL database
+- [S3] - static content storage; html, css, javascript, etc
+- [Amplify] - a command line interface for provisioning all the above AWS resources with minimal effort
 
 ## Pre-requisites
 
