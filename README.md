@@ -14,7 +14,7 @@ Learn about the world of serverless computing in this fast paced, bootstrapping 
 ## Pre-requisites
 
 - An Amazon Web Services [account](https://aws.amazon.com/free/)
-- [NodeJS] 8.x or higher
+- [NodeJS] 8.11.x or later
 
 ### Dependency installation
 
