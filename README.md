@@ -29,6 +29,7 @@ $ amplify configure
 $ npx create-react-app amplify-web-app
 $ cd amplify-web-app
 $ yarn add aws-amplify aws-amplify-react
+$ yarn start
 $ amplify init
 ```
 
@@ -37,23 +38,16 @@ Alternatives to React:
  - [Android](https://aws-amplify.github.io/docs/android/start?ref=amplify-android-btn)
  - [Pure JavaScript](https://aws-amplify.github.io/docs/js/start?ref=amplify-js-btn&platform=purejs)
 
-### Fix a dependency in package.json
+## Adding authentication
 
-```sh
->>>> "resolutions": { "ajv": "6.8.1" }
-$ yarn install
-```
-
-## Define cloud resources for authentication
+### Define cloud resources for authentication
 
 ```sh
 $ amplify add auth
 $ amplify push
 ```
 
-## Use the amplify components in the skeleton react app
-
-#### src/App.js 
+#### Use the amplify components in the skeleton react app: src/App.js 
 
 ```javascript
 import Amplify from 'aws-amplify'
@@ -64,28 +58,7 @@ import { withAuthenticator } from 'aws-amplify-react'
 export default withAuthenticator(App, { includeGreetings: true });
 ```
 
-```sh
-$ cp ~/Pictures/pearlhacks-logo.png src/
-$ yarn start
-```
-
-## All your excellent ideas begin here
-
-### Adding a NoSQL database
-
-```sh
-$ amplify add storage
-? Please select from one of the below mentioned services NoSQL Database
-? Please provide a friendly name for your resource that will be used to label this category in the project: gotparties
-? Please provide table name: gotparties
-
-You can now add columns to the table.
-? What would you like to name this column: id
-? Please choose the data type: string
-? Would you like to add another column? No
-
-```
-
+## Build your own backend APIs
 
 ### Adding a REST api via Lambda
 
@@ -93,13 +66,6 @@ You can now add columns to the table.
 $ amplify add api
 ? Please select from one of the below mentioned services REST
 ? Provide a friendly name for your resource to be used as a label for this category in the project: got
-? Provide a path (e.g., /items) /parties
-? Choose a Lambda source Use a Lambda function already added in the current Amplify project
-? Choose the Lambda function to invoke by this path gotparties
-? Restrict API access Yes
-? Who should have access? Authenticated users only
-? What kind of access do you want for Authenticated users read/write
-? Do you want to add another path? Yes
 ? Provide a path (e.g., /items) /people
 ? Choose a Lambda source Use a Lambda function already added in the current Amplify project
 ? Choose the Lambda function to invoke by this path gotpeople
@@ -109,7 +75,8 @@ $ amplify add api
 ? Do you want to add another path? No
 ```
 
-Write api logic for your Lambda function:
+### Write api logic for your Lambda function, hardcoded at first:
+
 ```javascript
 app.get('/people', function(rqr, res) {
 	const people = [
@@ -121,7 +88,11 @@ app.get('/people', function(rqr, res) {
  	res.json({ people });
 ```
 
-GET resources in App.js:
+```sh
+$ amplify push
+```
+
+### GET the resources in App.js:
 ```javascript 
 import { API } from 'aws-amplify'
 
@@ -143,7 +114,45 @@ async componentDidMount() {
     </table>
 ```
 
-POST to the /parties api in App.js:
+### Adding your own NoSQL database and a pre-built API
+
+```sh
+$ amplify add storage
+? Please select from one of the below mentioned services NoSQL Database
+? Please provide a friendly name for your resource that will be used to label this category in the project: gotparties
+? Please provide table name: gotparties
+
+You can now add columns to the table.
+? What would you like to name this column: id
+? Please choose the data type: string
+? Would you like to add another column? No
+
+$ amplify update api
+? Please select from one of the below mentioned services REST
+? Please select the REST API you would want to update got
+? What would you like to do Add another path
+? Provide a path (e.g., /items) /parties
+? Choose a Lambda source Create a new Lambda function
+? Provide a friendly name for your resource to be used as a label for this category in the project: gotparties
+? Provide the AWS Lambda function name: gotparties
+? Choose the function template that you want to use: CRUD function for Amazon DynamoDB table (Integration with Amazon API Gateway and Amazon Dynam
+oDB)
+? Choose a DynamoDB data source option Use DynamoDB table configured in the current Amplify project
+? Choose from one of the already configured DynamoDB tables gotparties
+? Do you want to edit the local lambda function now? Yes
+
+? Press enter to continue 
+Succesfully added the Lambda function locally
+? Restrict API access Yes
+? Who should have access? Authenticated users only
+? What kind of access do you want for Authenticated users read/write
+? Do you want to add another path? No
+Successfully updated resource
+
+$ amplify push
+```
+
+### POST to the /parties api in App.js:
 ```javascript
   post = async() => {
     const response = await API.post('got', '/parties', {
@@ -161,7 +170,8 @@ POST to the /parties api in App.js:
   <button onClick={this.post}>Add viewing party</button>
 ```
 
-Update your Lambda functions to use third party services:
+### Update your Lambda functions to use third party services, update the Lambda
+(in amplify/backend/function/gotpeople/src/app.js)
 ```javascript
 var axios = require('axios')
 app.get('/people', function(req, res) {
@@ -177,14 +187,21 @@ app.get('/people', function(req, res) {
 });
 ```
 
+```sh
+$ ( cd amplify/backend/function/gotpeople/src/; yarn add axios
+$ amplify push
+```
+
 ## Running 
 
 ### Serving your React app locally
+
 ```sh
 $ yarn start
 ```
 
-### Static content via S3/Cloudfront
+### Hosting your webpages in the cloud
+
 ```sh
 $ amplify add hosting
 $ amplify publish
