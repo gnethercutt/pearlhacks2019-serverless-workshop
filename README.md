@@ -80,10 +80,8 @@ $ amplify add api
 ```javascript
 app.get('/people', function(rqr, res) {
 	const people = [
- 	{ name: 'Arya Stark'},
- 	{ name: 'Jon Snow' },
- 	{ name: 'Daenerys Targaryen'},
- 	{ name: 'Tyrion Lannister' }
+ 	{ name: 'Jon Snow', culture: 'Northmen' },
+ 	{ name: 'Daenerys Targaryen', culture: "Valyrian"}
  	]
  	res.json({ people });
 ```
@@ -92,7 +90,7 @@ app.get('/people', function(rqr, res) {
 $ amplify push
 ```
 
-### GET the resources in App.js:
+### GET the resources in App.js, put them into a vanilla HTML table:
 ```javascript 
 import { API } from 'aws-amplify'
 
@@ -107,14 +105,16 @@ async componentDidMount() {
      <tr><th>Name</th><th>Culture</th></tr>
       {
       this.state.people.map((person, i) => (
-        <tr><td>{ person.name }</td>
-        <td>{ person.culture }</td></tr>
+        <tr>
+	  <td>{ person.name }</td>
+          <td>{ person.culture }</td>
+	</tr>
       )) 
       }
     </table>
 ```
 
-### Adding your own NoSQL database and a pre-built API
+### Adding your own NoSQL database and a pre-built CRUD API
 
 ```sh
 $ amplify add storage
@@ -188,7 +188,7 @@ app.get('/people', function(req, res) {
 ```
 
 ```sh
-$ ( cd amplify/backend/function/gotpeople/src/; yarn add axios
+$ ( cd amplify/backend/function/gotpeople/src/; yarn add axios )
 $ amplify push
 ```
 
