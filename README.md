@@ -28,8 +28,8 @@ $ amplify configure
 ```sh
 $ npx create-react-app amplify-web-app
 $ cd amplify-web-app
-$ yarn add aws-amplify aws-amplify-react
-$ yarn start
+$ npm install aws-amplify aws-amplify-react
+$ npm start
 $ amplify init
 ```
 
@@ -188,7 +188,7 @@ app.get('/people', function(req, res) {
 ```
 
 ```sh
-$ ( cd amplify/backend/function/gotpeople/src/; yarn add axios )
+$ ( cd amplify/backend/function/gotpeople/src/; npm install axios )
 $ amplify push
 ```
 
